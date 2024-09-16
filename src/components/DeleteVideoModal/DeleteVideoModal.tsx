@@ -2,57 +2,62 @@
   Author : Mudey Formation
   Website : https://mudey.fr/
   App Name : E-commerce with React.Js
-  Created At : 16/09/2024 11:33:17
+  Created At : 05/03/2024 09:14:11
 */
 import React, { FC, useEffect } from 'react';
 import './DeleteVideoModal.css';
 import { Button, Modal } from 'react-bootstrap';
 import { deleteVideo } from '../../api/api-video';
+import { Video } from '../../models/Video';
 
 
 interface DeleteVideoModalProps {
   hideModal: () => void
-  updateData(): () => void
-  videoId: number
+  updateData: () => void
+  currentVideo: Video
 }
 
 
-const DeleteVideoModal : FC<DeleteVideoModalProps> = ({ videoId, updateData, hideModal }) =>{
+const DeleteVideoModal: FC<DeleteVideoModalProps> = ({ currentVideo, updateData, hideModal }) => {
 
 
 
-    useEffect(() => {
-      window.scrollTo(0,0)
-      const runLocalData = async () => {
+  useEffect(() => {
+    window.scrollTo(0, 0)
+    const runLocalData = async () => {
 
-      }
-      runLocalData()
-    })
-
-    const handleDelete = async () => {
-      await deleteVideo(videoId)
-      updateData()
-      hideModal()
     }
+    runLocalData()
+  })
+
+  const handleDelete = async () => {
+    await deleteVideo(currentVideo._id!)
+    updateData()
+    hideModal()
+  }
 
   return (
-      <div className="DeleteVideoModal">
-          <Modal show={true} size='lg' scrollable>
-            <Modal.Header>
-              <Modal.Title><h2>Delete Confirm</h2></Modal.Title>
-              <button onClick={hideModal} className='btn-close'> </button>
-            </Modal.Header>
+    <div className="DeleteVideoModal">
+      <Modal show={true} scrollable centered>
+        <Modal.Header>
+          <Modal.Title>
+            <h2>Delete Confirm</h2>
+          </Modal.Title>
+          <button onClick={hideModal} className='btn-close'></button>
 
-            <Modal.Body>
-              <p>Are you sure you want to delete this video ?</p>
-            </Modal.Body>
+        </Modal.Header>
 
-            <Modal.Footer>
-              <Button variant='primary' onClick={hideModal}>Cancel </Button>
-              <Button variant='success' onClick={handleDelete}>Confirm </Button>
-            </Modal.Footer>
-          </Modal>
-      </div>
+        <Modal.Body>
+          <p>Are you sure you want to delete this video :
+            <strong>{currentVideo.title}</strong>?
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant='primary' onClick={hideModal}>Cancel</Button>
+          <Button variant='success' onClick={handleDelete}>Comfirm</Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
   );
 }
 

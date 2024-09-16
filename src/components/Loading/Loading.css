@@ -2,11 +2,10 @@
   Authors : Mudey Formation
   Website : https://mudey.fr/
   App Name : E-commerce with React.Js
-  Created At : 14/09/2024 17:35:40
+  Created At : 05/03/2024 07:19:24
 */
 
 .Loading {}
-
 .loader-container{
   display: flex;
   align-items: center;
@@ -25,6 +24,6 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0%{ transform:  rotate(0deg);}
+  100%{ transform:  rotate(360deg);}
 }

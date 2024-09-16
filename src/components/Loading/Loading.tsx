@@ -2,14 +2,14 @@
   Author : Mudey Formation
   Website : https://mudey.fr/
   App Name : E-commerce with React.Js
-  Created At : 14/09/2024 17:35:40
+  Created At : 05/03/2024 07:19:24
 */
 import React, { FC, useEffect } from 'react';
 import './Loading.css';
 
 
 interface LoadingProps {
-
+ 
 }
 
 
