@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import Account from './pages/Account/Account';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
+import MediaReader from './pages/MediaReader/MediaReader';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/account' element={<Account />} />
+        <Route path='/reader/:videoId' element={<MediaReader />} />
         <Route path='/*' element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
