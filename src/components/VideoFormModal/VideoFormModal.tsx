@@ -11,6 +11,7 @@ import { Video } from '../../models/Video';
 import { convertFileToBlob, convertFileToLink } from '../../helpers/filehelpers';
 import { addVideo, updateVideo } from '../../api/api-video';
 import Loading from '../Loading/Loading';
+import { slugyfy } from '../../helpers/stringHelpers';
 
 
 interface VideoFormModalProps {
@@ -148,6 +149,7 @@ const VideoFormModal: FC<VideoFormModalProps> = ({ currentVideo, hideModal, upda
         // create
         video.poster = await convertFileToBlob(video.poster as File)
         video.link = await convertFileToBlob(video.link as File)
+        
         video.created_at = new Date()
         result = await addVideo(video)
       }

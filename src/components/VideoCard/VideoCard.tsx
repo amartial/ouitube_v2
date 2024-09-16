@@ -2,7 +2,7 @@
   Author : Mudey Formation
   Website : https://mudey.fr/
   App Name : E-commerce with React.Js
-  Created At : 16/09/2024 20:14:32
+  Created At : 05/03/2024 11:36:10
 */
 import React, { FC, useEffect } from 'react';
 import './VideoCard.css';
@@ -15,26 +15,27 @@ interface VideoCardProps {
 }
 
 
-const VideoCard : FC<VideoCardProps> = ({video}) =>{
+const VideoCard: FC<VideoCardProps> = ({ video }) => {
 
 
 
   return (
-    <div key={video._id} className="VideoCard col-lg-3 col-md-6 p-1">
-      <Link to={"/reader/"+video._id}>
-        <div className="card">
+    <div key={video._id} className="VideoCard col-lg-3 col-md-6 p-1 ">
+      <Link to={"/reader/"+video.slug}>
+        <div className="shadow-lg card">
           <img
             src={video.posterLink}
-            alt={video.posterLink}
-            className="card-imp-top"
-            height={300} />
+            className="card-img-top" alt={video.title}
+            height={300}
+          />
           <div className="card-body">
             <h5 className="card-title">{video.title}</h5>
             <p className="card-text">Created At: {video?.created_at?.toDateString()}</p>
+            {/* Vous pouvez ajouter d'autres informations de la vidéo ici */}
           </div>
         </div>
       </Link>
-  </div>
+    </div>
   );
 }
 

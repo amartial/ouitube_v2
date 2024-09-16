@@ -2,7 +2,7 @@
   Author : Mudey Formation
   Website : https://mudey.fr/
   App Name : E-commerce with React.Js
-  Created At : 16/09/2024 17:14:55
+  Created At : 05/03/2024 11:03:13
 */
 import React, { FC, useEffect,Fragment, useState } from 'react';
 // import Loading from '../Loading/Loading';
@@ -12,7 +12,7 @@ import Container from '../../components/Container/Container';
 
 
 interface AccountProps {
-
+ 
 }
 
 
@@ -21,7 +21,7 @@ const Account : FC<AccountProps> = () =>{
 
     // const [state, setState] = useState<any>(null)
     const [loading, setLoading] = useState(true);
-    const [value, setValue] = useState('');
+    // const [value, setValue] = useState('');
 
     useEffect(() => {
       window.scrollTo(0,0)
@@ -30,7 +30,7 @@ const Account : FC<AccountProps> = () =>{
         setLoading(false)
       }
       runLocalData()
-    },[value])
+    },[])
 
   return (
     <Fragment>
@@ -38,7 +38,7 @@ const Account : FC<AccountProps> = () =>{
       loading ?
       <Loading />
       :
-      <Container />
+      <Container/>
     }
     </Fragment>
   );

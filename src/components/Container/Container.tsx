@@ -12,6 +12,7 @@ import { getAllVideo } from '../../api/api-video';
 import { convertBlobToUrl } from '../../helpers/filehelpers';
 import ViewVideoModal from '../ViewVideoModal/ViewVideoModal';
 import DeleteVideoModal from '../DeleteVideoModal/DeleteVideoModal';
+import UploadModal from '../UploadModal/UploadModal';
 
 
 interface ContainerProps {
@@ -24,6 +25,7 @@ const Container: FC<ContainerProps> = () => {
   const [displayModal, setDisplayModal] = useState<boolean>(false)
   const [viewModal, setViewModal] = useState<boolean>(false)
   const [deleteModal, setDeleteModal] = useState<boolean>(false)
+  const [uploadModal, setUploadModal] = useState<boolean>(false)
   const [currentVideo, setCurrentVideo] = useState<Video|undefined>()
   const [videos, setVideos] = useState<Video[]>([])
 
@@ -56,6 +58,10 @@ const Container: FC<ContainerProps> = () => {
     setCurrentVideo(undefined)
     setDisplayModal(true)
   }
+  const handleUpload = () =>{
+    setCurrentVideo(undefined)
+    setUploadModal(true)
+  }
   const handleDelete = (video: Video) =>{
     setCurrentVideo(video)
     setDeleteModal(true)
@@ -63,13 +69,24 @@ const Container: FC<ContainerProps> = () => {
 
   return (
     <div className="container py-2">
+      <div className="d-flex gap-2 justify-content-between">
       <button className="btn btn-primary" onClick={handleAdd}>
         Add Vidéo
       </button>
+      <button className="btn btn-danger" onClick={handleUpload}>
+        Add Many
+      </button>
+
+      </div>
       {displayModal &&
         <VideoFormModal
           hideModal={() => setDisplayModal(false)}
           currentVideo={currentVideo}
+          updateData={runLocalData}
+        />}
+      {uploadModal &&
+        <UploadModal
+          hideModal={() => setUploadModal(false)}
           updateData={runLocalData}
         />}
       {viewModal && currentVideo &&
@@ -87,7 +104,7 @@ const Container: FC<ContainerProps> = () => {
       {
         videos.length !== 0 &&
         <div className="video-list py-1">
-          <table className="table table-bordered">
+          <table className="table table-bordered shadow-lg">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -107,7 +124,7 @@ const Container: FC<ContainerProps> = () => {
                       <img
                         width={80}
                         src={video.posterLink as string}
-                        alt="Formation React Js" />
+                        alt={video.title} />
                     </td>
                     <td>{video.category}</td>
                     <td>
