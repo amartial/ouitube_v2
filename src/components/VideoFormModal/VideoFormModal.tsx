@@ -9,24 +9,25 @@ import './VideoFormModal.css';
 import { Button, Modal } from 'react-bootstrap';
 import { Video } from '../../models/Video';
 import { convertFileToBlob, convertFileToLink } from '../../helpers/filehelpers';
-import { addVideo } from '../../api/api-video';
+import { addVideo, updateVideo } from '../../api/api-video';
 import Loading from '../Loading/Loading';
 
 
 interface VideoFormModalProps {
+  currentVideo?: Video
   hideModal: () => void
   updateData: () => void
 }
 
 
-const VideoFormModal : FC<VideoFormModalProps> = ({hideModal, updateData}) =>{
+const VideoFormModal : FC<VideoFormModalProps> = ({currentVideo, hideModal, updateData}) =>{
 
-  const [posterPreview, setPosterPreview] = useState<string>("")
-  const [videoPreview, setVideoPreview] = useState<string>("")
+  const [posterPreview, setPosterPreview] = useState<string>(currentVideo?.posterLink as string || "")
+  const [videoPreview, setVideoPreview] = useState<string>(currentVideo?.videoLink as string || "")
   const [formSubmitError, setFormSubmitError] = useState<string>("")
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
 
-  const [formData, setFormData] = useState<Video>({
+  const [formData, setFormData] = useState<Video>(currentVideo || {
     title: '',
     description: '',
     poster: null,
@@ -42,10 +43,17 @@ const VideoFormModal : FC<VideoFormModalProps> = ({hideModal, updateData}) =>{
   useEffect(() => {
     window.scrollTo(0,0)
     const runLocalData = async () => {
-
+      setFormData(currentVideo || {
+        title: '',
+        description: '',
+        poster: null,
+        link: null,
+        category: '',
+        isAvailable: true
+      })
     }
     runLocalData()
-  })
+  }, [currentVideo])
 
   const handleInputChange = async (event: any) => {
     const { name, value, type, files, checked } = event.target;
@@ -125,12 +133,28 @@ const VideoFormModal : FC<VideoFormModalProps> = ({hideModal, updateData}) =>{
     try {
       setIsSubmitted(true)
       const video: Video = formData
-      video.created_at = new Date()
 
-      video.poster = await convertFileToBlob(video.poster as File)
-      video.link = await convertFileToBlob(video.link as File)
+      let result
+      if (currentVideo) {
+        if (video.poster instanceof File){
+          video.poster = await convertFileToBlob(video.poster as File)
+        }
+        if (video.link instanceof File){
+          video.link = await convertFileToBlob(video.link as File)
+        }
+        delete video?.posterLink
+        delete video?.videoLink
+        video.updated_at = new Date()
 
-      const result = await addVideo(video)
+        result = await updateVideo(video)
+      } else {
+        video.poster = await convertFileToBlob(video.poster as File)
+        video.link = await convertFileToBlob(video.link as File)
+        video.created_at = new Date()
+        result = await addVideo(video)
+      }
+
+      result = await addVideo(video)
 
       if (result.isSuccess) {
         setFormData({
@@ -248,7 +272,12 @@ const VideoFormModal : FC<VideoFormModalProps> = ({hideModal, updateData}) =>{
 
             <Modal.Footer>
               <Button variant='primary'>Cancel </Button>
-              <Button variant='cuccess' onClick={handleSubmit}>Save Video </Button>
+              {
+                currentVideo ?
+                <Button variant='warning' onClick={handleSubmit}>Update Video</Button>
+                :
+                <Button variant='cuccess' onClick={handleSubmit}>Save Video </Button>
+              }
             </Modal.Footer>
           </Modal>
       </div>
