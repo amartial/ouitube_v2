@@ -9,7 +9,7 @@ import React, { FC, useEffect, Fragment, useState } from 'react';
 import './MediaReader.css';
 import Loading from '../../components/Loading/Loading';
 import { useNavigate, useParams } from 'react-router-dom';
-import {  searchVideoBySlug } from '../../api/api-video';
+import { searchVideoBySlug } from '../../api/api-video';
 import { Video } from '../../models/Video';
 import { OuitubePlayer } from 'ouitube-player';
 import { convertBlobToUrl } from '../../helpers/filehelpers';
@@ -28,7 +28,7 @@ const MediaReader: FC<MediaReaderProps> = () => {
   const [loading, setLoading] = useState(true);
   const [errorPage, setErrorpage] = useState(false);
   const [video, setVideo] = useState<Video | undefined>();
-  let { slug }  = useParams()
+  let { slug } = useParams()
   const navigate = useNavigate()
 
 
@@ -44,7 +44,7 @@ const MediaReader: FC<MediaReaderProps> = () => {
             currentVideo.posterLink = convertBlobToUrl(currentVideo.poster as Blob)
             currentVideo.videoLink = convertBlobToUrl(currentVideo.link as Blob)
             setVideo(currentVideo)
-          }else{
+          } else {
             setErrorpage(true)
           }
 
@@ -57,7 +57,7 @@ const MediaReader: FC<MediaReaderProps> = () => {
     runLocalData()
   }, [slug])
 
-  if(errorPage){
+  if (errorPage) {
     navigate('/error')
   }
 
@@ -70,16 +70,22 @@ const MediaReader: FC<MediaReaderProps> = () => {
           video ?
             <div className="MediaReader p-2">
               <div className="row">
-                <div className="col-md-9 shadow-lg">
-                  <OuitubePlayer src={video.videoLink as string} />
-                  <div className="">
-                    <h2>
-                      {video.title}
-                    </h2>
+                <div className="col-md-9">
+                  <div className="shadow-lg">
+                    <OuitubePlayer playing={true} src={video.videoLink as string} />
+                    <div className="p-2">
+                      <h2>
+                        {video.title}
+                      </h2>
+
+                    </div>
 
                   </div>
-                  <div className="video-description p-2">
-                    {video.description}
+                  <div className="shadow-lg">
+                    <div className="video-description p-2">
+                      <h3>Description : </h3>
+                      {video.description}
+                    </div>
                   </div>
                 </div>
                 <div className="col-md-3 ">

@@ -13,6 +13,7 @@ import { convertBlobToUrl } from '../../helpers/filehelpers';
 import ViewVideoModal from '../ViewVideoModal/ViewVideoModal';
 import DeleteVideoModal from '../DeleteVideoModal/DeleteVideoModal';
 import UploadModal from '../UploadModal/UploadModal';
+import { Link } from 'react-router-dom';
 
 
 interface ContainerProps {
@@ -119,7 +120,11 @@ const Container: FC<ContainerProps> = () => {
                 videos.map((video) => {
                   return <tr key={video._id}>
                     <th scope="row">{video._id}</th>
-                    <td>{video.title}</td>
+                    <td>
+                      <Link to={'/reader/'+video.slug}>
+                      {video.title}
+                      </Link>
+                    </td>
                     <td>
                       <img
                         width={80}

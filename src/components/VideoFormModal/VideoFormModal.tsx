@@ -178,7 +178,7 @@ const VideoFormModal: FC<VideoFormModalProps> = ({ currentVideo, hideModal, upda
 
   return (
     <div className="VideoFormModal" >
-      <Modal show={true} scrollable>
+      <Modal show={true} scrollable size='lg'>
         <Modal.Header>
           <Modal.Title>
             Video Form

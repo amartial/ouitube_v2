@@ -5,4 +5,18 @@
   Created At : 05/03/2024 12:03:13
 */
 
-.PlayList {}
+.PlayList{
+  border: 2px solid var(--bg-primary);
+}
+.PlayList .PlayListHeader{
+  background-color: var(--bg-primary);
+}
+.PlayList .PlayListHeader *{
+  color: white !important;
+}
+.PlayList .PlayListContent{
+  height: calc(100vh - 180px);
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}

@@ -19,17 +19,17 @@ interface PlayListItemProps {
 const PlayListItem: FC<PlayListItemProps> = ({ currentVideoId, video }) => {
 
   return (
-    <div className="PlayListItem  p-1">
-      <Link to={"/reader/" + video.slug} className={currentVideoId == video._id ? "row border current" : 'row border'}>
-        <div className="col-md-4">
+    <div className={"PlayListItem  my-3 card shadow-lg"+(currentVideoId == video._id ? " current" : '')}>
+      <Link to={"/reader/" + video.slug} className="row">
+        <div className="col-4">
           <img
-            className='p-1'
+            className='p-1 rounded'
             width={"100%"}
             src={video.posterLink as string}
             alt={video.title} />
         </div>
-        <div className="col-md-8">
-          <div className="d-flex align-items-center">
+        <div className="col-8 d-flex align-items-center">
+          <div className="">
             <strong>{video.title}</strong>
           </div>
         </div>

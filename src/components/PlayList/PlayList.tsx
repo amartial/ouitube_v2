@@ -41,10 +41,17 @@ const PlayList : FC<PlayListProps> = ({videoId}) =>{
     },[])
 
   return (
-      <div className="PlayList">
+      <div className="PlayList p-1">
+        <div className="PlayListHeader shadow-lg p-2">
+          <h2>PlayList</h2>
+          <p> {videos.length} videos </p>
+        </div>
+        <div className="PlayListContent">
           {
             videos.map((video: Video)=> <PlayListItem key={video._id} currentVideoId={videoId} video={video}/>)
           }
+
+        </div>
       </div>
   );
 }

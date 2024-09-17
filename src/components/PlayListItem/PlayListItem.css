@@ -6,17 +6,17 @@
 */
 
 .PlayListItem .border{
-  background-color: white;
+  /* background-color: white; */
 }
-.PlayListItem:hover .border{
-  background-color: gainsboro;
+.PlayListItem:hover {
+  background-color: var(--bg-primary);
   color: white;
 }
-.PlayListItem .current{
-  background-color: rgb(227, 0, 19) !important;
+.PlayListItem.current{
+  background-color: var(--bg-primary) !important;
   color: white !important;
 }
 .navbar-brand{
-  color: rgb(227, 0, 19) !important;
+  color: var(--bg-primary) !important;
   font-weight: bold;
 }
