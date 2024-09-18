@@ -12,6 +12,9 @@ import { convertFileToBlob, convertFileToLink } from '../../helpers/filehelpers'
 import { addVideo, updateVideo } from '../../api/api-video';
 import Loading from '../Loading/Loading';
 import { slugyfy } from '../../helpers/stringHelpers';
+import { useDispatch } from 'react-redux';
+import { emitNotification } from '../../helpers/notificationHelpers';
+import { ADD } from '../../redux/types/actions';
 
 
 interface VideoFormModalProps {
@@ -27,6 +30,7 @@ const VideoFormModal: FC<VideoFormModalProps> = ({ currentVideo, hideModal, upda
   const [videoPreview, setVideoPreview] = useState<string>(currentVideo?.videoLink as string || "")
   const [formSubmitError, setFormSubmitError] = useState<string>("")
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
+  const dispatch = useDispatch()
 
   const [formData, setFormData] = useState<Video>(currentVideo || {
     title: '',
@@ -119,6 +123,8 @@ const VideoFormModal: FC<VideoFormModalProps> = ({ currentVideo, hideModal, upda
 
   }
 
+
+
   const handleSubmit = async (event: any) => {
     event.preventDefault()
     if (!validateForm()) {
@@ -166,12 +172,19 @@ const VideoFormModal: FC<VideoFormModalProps> = ({ currentVideo, hideModal, upda
         })
         updateData()
         hideModal()
+        if(currentVideo){
+          //update
+          emitNotification(dispatch, 'Video updated successfully !', ADD)
+        }else{
+          //add
+          emitNotification(dispatch, 'Video added successfully !', ADD)
+        }
       }
 
 
     } catch (error) {
       setFormSubmitError('Error, please try again later !')
-
+      emitNotification(dispatch, 'Error, please try again later !', ADD, 'danger')
     }
     setIsSubmitted(false)
   }

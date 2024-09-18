@@ -7,7 +7,7 @@
 import React, { FC, useEffect } from 'react';
 import './Header.css';
 import { Link } from 'react-router-dom';
-import Account from '../../pages/Account/Account';
+import { useDispatch } from 'react-redux';
 
 
 interface HeaderProps {
@@ -18,7 +18,6 @@ interface HeaderProps {
 const Header: FC<HeaderProps> = () => {
 
 
-
   useEffect(() => {
     window.scrollTo(0, 0)
     const runLocalData = async () => {
@@ -26,6 +25,8 @@ const Header: FC<HeaderProps> = () => {
     }
     runLocalData()
   })
+
+  
 
   return (
     <div className="Header sticky-top">
@@ -49,6 +50,8 @@ const Header: FC<HeaderProps> = () => {
             <button className="btn btn-outline-success" type="submit">Search</button>
           </form>
           </div>
+            <button 
+            className="btn btn-outline-success" type="submit">Add Notif</button>
 
         </div>
       </nav>

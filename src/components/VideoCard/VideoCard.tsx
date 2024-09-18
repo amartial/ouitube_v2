@@ -20,13 +20,13 @@ const VideoCard: FC<VideoCardProps> = ({ video }) => {
 
 
   return (
-    <div key={video._id} className="VideoCard col-lg-4 col-md-6 p-1 ">
+    <div key={video._id} className="VideoCard col-lg-3 col-md-6 p-1 ">
       <Link to={"/reader/"+video.slug}>
         <div className="shadow-lg card">
           <img
             src={video.posterLink}
             className="card-img-top" alt={video.title}
-            height={300}
+            height={200}
           />
           <div className="card-body">
             <h5 className="card-title">{video.title}</h5>
