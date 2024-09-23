@@ -4,9 +4,9 @@
   App Name : E-commerce with React.Js
   Created At : 04/03/2024 16:52:54
 */
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import './Header.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 
@@ -16,16 +16,29 @@ interface HeaderProps {
 
 
 const Header: FC<HeaderProps> = () => {
+  const navigate = useNavigate()
+  const currentSearchParams = new URLSearchParams(window.location.search)
+  const searchQuery = currentSearchParams.get('searchVideo') || ''
+  const [searchInput, setSearchInput] = useState<string>(searchQuery);
 
-
+  console.log(searchQuery);
+  
   useEffect(() => {
     window.scrollTo(0, 0)
     const runLocalData = async () => {
-
+      setSearchInput(searchQuery)
     }
     runLocalData()
-  })
+  },[])
 
+  const handleSearchSubmit = (event: any) =>{
+    event.preventDefault()
+
+    const currentSearchParams = new URLSearchParams(window.location.search)
+    currentSearchParams.set('searchVideo', searchInput)
+
+    navigate({search: currentSearchParams.toString()})
+  }
   
 
   return (
@@ -45,13 +58,19 @@ const Header: FC<HeaderProps> = () => {
              
              
             </ul>
-          <form className="d-flex" role="search">
-            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+          <form className="d-flex" role="search" onSubmit={handleSearchSubmit}>
+            <input 
+            className="form-control me-2" 
+            type="search" 
+            defaultValue={searchInput}
+            onChange={(e)=>setSearchInput(e.target.value)}
+            placeholder="Search" 
+            aria-label="Search"
+             />
             <button className="btn btn-outline-success" type="submit">Search</button>
           </form>
           </div>
-            <button 
-            className="btn btn-outline-success" type="submit">Add Notif</button>
+          
 
         </div>
       </nav>

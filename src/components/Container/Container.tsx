@@ -13,7 +13,8 @@ import { convertBlobToUrl } from '../../helpers/filehelpers';
 import ViewVideoModal from '../ViewVideoModal/ViewVideoModal';
 import DeleteVideoModal from '../DeleteVideoModal/DeleteVideoModal';
 import UploadModal from '../UploadModal/UploadModal';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import SearchBox from '../SearchBox/SearchBox';
 
 
 interface ContainerProps {
@@ -27,8 +28,12 @@ const Container: FC<ContainerProps> = () => {
   const [viewModal, setViewModal] = useState<boolean>(false)
   const [deleteModal, setDeleteModal] = useState<boolean>(false)
   const [uploadModal, setUploadModal] = useState<boolean>(false)
-  const [currentVideo, setCurrentVideo] = useState<Video|undefined>()
+  const [currentVideo, setCurrentVideo] = useState<Video | undefined>()
   const [videos, setVideos] = useState<Video[]>([])
+  const currentSearchParams = new URLSearchParams(window.location.search)
+  const searchQuery = currentSearchParams.get('searchVideo') || ''
+  const location = useLocation()
+
 
   const runLocalData = async () => {
     const data: any = await getAllVideo()
@@ -44,39 +49,41 @@ const Container: FC<ContainerProps> = () => {
   }
   useEffect(() => {
     window.scrollTo(0, 0)
-    runLocalData()
   }, [])
 
-  const handleView = (video: Video) =>{
+  const handleView = (video: Video) => {
     setCurrentVideo(video)
     setViewModal(true)
   }
-  const handleEdit = (video: Video) =>{
+  const handleEdit = (video: Video) => {
     setCurrentVideo(video)
     setDisplayModal(true)
   }
-  const handleAdd = () =>{
+  const handleAdd = () => {
     setCurrentVideo(undefined)
     setDisplayModal(true)
   }
-  const handleUpload = () =>{
+  const handleUpload = () => {
     setCurrentVideo(undefined)
     setUploadModal(true)
   }
-  const handleDelete = (video: Video) =>{
+  const handleDelete = (video: Video) => {
     setCurrentVideo(video)
     setDeleteModal(true)
   }
 
   return (
     <div className="container py-2">
+       <SearchBox
+        handleChange={setVideos}
+      />
       <div className="d-flex gap-2 justify-content-between">
-      <button className="btn btn-primary" onClick={handleAdd}>
-        Add Vidéo
-      </button>
-      <button className="btn btn-danger" onClick={handleUpload}>
-        Add Many
-      </button>
+        <button className="btn btn-primary" onClick={handleAdd}>
+          Add Vidéo
+        </button>
+        <button className="btn btn-danger" onClick={handleUpload}>
+          Add Many
+        </button>
 
       </div>
       {displayModal &&
@@ -102,6 +109,8 @@ const Container: FC<ContainerProps> = () => {
           updateData={runLocalData}
         />}
 
+     
+
       {
         videos.length !== 0 &&
         <div className="video-list py-1">
@@ -121,8 +130,8 @@ const Container: FC<ContainerProps> = () => {
                   return <tr key={video._id}>
                     <th scope="row">{video._id}</th>
                     <td>
-                      <Link to={'/reader/'+video.slug}>
-                      {video.title}
+                      <Link to={'/reader/' + video.slug}>
+                        {video.title}
                       </Link>
                     </td>
                     <td>
@@ -133,9 +142,9 @@ const Container: FC<ContainerProps> = () => {
                     </td>
                     <td>{video.category}</td>
                     <td>
-                      <button className="btn btn-success m-1" onClick={()=>handleView(video)}>View</button>
-                      <button className="btn btn-primary m-1" onClick={()=>handleEdit(video)}>Edit</button>
-                      <button className="btn btn-danger m-1" onClick={()=>handleDelete(video)}>Delete</button>
+                      <button className="btn btn-success m-1" onClick={() => handleView(video)}>View</button>
+                      <button className="btn btn-primary m-1" onClick={() => handleEdit(video)}>Edit</button>
+                      <button className="btn btn-danger m-1" onClick={() => handleDelete(video)}>Delete</button>
                     </td>
                   </tr>
                 })

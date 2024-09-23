@@ -76,7 +76,7 @@ const UploadModal: FC<UploadModalProps> = ({ hideModal, updateData }) => {
   }
   return (
     <div className="UploadModal">
-      <Modal show={true} scrollable size='lg' centered>
+      <Modal show={true} scrollable size='xl' centered>
         <Modal.Header>
           <Modal.Title>
             <h2>Upload Video</h2>
