@@ -42,7 +42,7 @@ const Home: FC<HomeProps> = () => {
         loading ?
           <Loading />
           :
-          <div className="Home container-fluid py-2">
+          <div className="Home container py-2">
             <SearchBox
             handleChange={setVideos}
             />

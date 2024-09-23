@@ -7,7 +7,8 @@
 import React, { FC, useEffect } from 'react';
 import './PlayListItem.css';
 import { Video } from '../../models/Video';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 
 interface PlayListItemProps {
@@ -18,9 +19,22 @@ interface PlayListItemProps {
 
 const PlayListItem: FC<PlayListItemProps> = ({ currentVideoId, video }) => {
 
+  const navigate = useNavigate()
+  const createdAt = moment(video?.created_at)
+
+
+  const handleClick = (event: any) => {
+    event.preventDefault()
+
+    const currentSearchParams = new URLSearchParams(window.location.search)
+
+
+    navigate("/reader/" + video.slug + '?' + currentSearchParams.toString())
+
+  }
   return (
-    <div className={"PlayListItem  my-3 card shadow-lg"+(currentVideoId == video._id ? " current" : '')}>
-      <Link to={"/reader/" + video.slug} className="row">
+    <div className={"PlayListItem  my-3 card shadow-lg" + (currentVideoId == video._id ? " current" : '')}>
+      <a onClick={handleClick} href='#' className="row">
         <div className="col-4">
           <img
             className='p-1 rounded'
@@ -30,10 +44,16 @@ const PlayListItem: FC<PlayListItemProps> = ({ currentVideoId, video }) => {
         </div>
         <div className="col-8 d-flex align-items-center">
           <div className="">
-            <strong>{video.title}</strong>
+            <div className="video-title">
+              <strong>{video.title}</strong>
+
+            </div>
+            <div className="created_at">
+              Published at <strong>{createdAt.fromNow()}</strong>
+            </div>
           </div>
         </div>
-      </Link>
+      </a>
     </div>
   );
 }

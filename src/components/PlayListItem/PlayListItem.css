@@ -5,8 +5,10 @@
   Created At : 05/03/2024 12:05:05
 */
 
-.PlayListItem .border{
+
+.PlayListItem a{
   /* background-color: white; */
+  color: inherit !important;
 }
 .PlayListItem:hover {
   background-color: var(--bg-primary);
@@ -19,4 +21,9 @@
 .navbar-brand{
   color: var(--bg-primary) !important;
   font-weight: bold;
+}
+.PlayListItem .video-title strong {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }

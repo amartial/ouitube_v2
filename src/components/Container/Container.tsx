@@ -15,6 +15,7 @@ import DeleteVideoModal from '../DeleteVideoModal/DeleteVideoModal';
 import UploadModal from '../UploadModal/UploadModal';
 import { Link, useLocation } from 'react-router-dom';
 import SearchBox from '../SearchBox/SearchBox';
+import moment from 'moment';
 
 
 interface ContainerProps {
@@ -49,6 +50,7 @@ const Container: FC<ContainerProps> = () => {
   }
   useEffect(() => {
     window.scrollTo(0, 0)
+    
   }, [])
 
   const handleView = (video: Video) => {
@@ -121,6 +123,7 @@ const Container: FC<ContainerProps> = () => {
                 <th scope="col">Title</th>
                 <th scope="col">Poster</th>
                 <th scope="col">Category</th>
+                <th scope="col">Created At</th>
                 <th scope="col">Actions</th>
               </tr>
             </thead>
@@ -141,6 +144,7 @@ const Container: FC<ContainerProps> = () => {
                         alt={video.title} />
                     </td>
                     <td>{video.category}</td>
+                    <td>{moment(video?.created_at).format('MMMM D, YYYY')}</td>
                     <td>
                       <button className="btn btn-success m-1" onClick={() => handleView(video)}>View</button>
                       <button className="btn btn-primary m-1" onClick={() => handleEdit(video)}>Edit</button>

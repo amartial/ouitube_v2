@@ -7,9 +7,12 @@
 import React, { FC, useEffect, useState } from 'react';
 import './PlayList.css';
 import { Video } from '../../models/Video';
-import { getAllVideo } from '../../api/api-video';
+import { findVideo, getAllVideo } from '../../api/api-video';
 import { convertBlobToUrl } from '../../helpers/filehelpers';
 import PlayListItem from '../PlayListItem/PlayListItem';
+import { useLocation } from 'react-router-dom';
+import Pagination from '../Pagination/Pagination';
+import { ResultData } from '../../models/ResultData';
 
 
 interface PlayListProps {
@@ -19,13 +22,19 @@ interface PlayListProps {
 
 const PlayList : FC<PlayListProps> = ({videoId}) =>{
 
+  const currentSearchParams = new URLSearchParams(window.location.search)
+  const searchQuery = currentSearchParams.get('searchVideo') || ''
+  const pageQuery = parseInt(currentSearchParams.get('page') || '1')
+  const [currentPage, setCurrentPage] = useState<number>(pageQuery)
+  const [pageSize, setPageSize] = useState<number>(20)
   const [videos, setVideos] = useState<Video[]>([])
+  const [datas, setDatas] = useState<ResultData|null>(null)
+  const location = useLocation()
 
   const runLocalData = async () => {
-    const data: any = await getAllVideo()
+    const data: any = await findVideo(searchQuery,'title', currentPage, pageSize)
+    setDatas(data)
     if (data.isSuccess) {
-      console.log(data.results);
-      
       data.results.map((video: Video) => {
         video.posterLink = convertBlobToUrl(video.poster as Blob)
         video.videoLink = convertBlobToUrl(video.link as Blob)
@@ -38,13 +47,22 @@ const PlayList : FC<PlayListProps> = ({videoId}) =>{
     useEffect(() => {
       window.scrollTo(0,0)
       runLocalData()
-    },[])
+    },[location.search])
 
   return (
       <div className="PlayList p-1">
         <div className="PlayListHeader shadow-lg p-2">
           <h2>PlayList</h2>
-          <p> {videos.length} videos </p>
+          <p> {datas?.allCount} videos </p>
+          <Pagination 
+          pageLinks={datas?.pageLinks}
+          currentPage={datas?.currentPage}
+          totalPages={datas?.totalPages}
+          nextPage={datas?.nextPage}
+          previousPage={datas?.previousPage}
+          onPageChange={setCurrentPage}
+        />
+        
         </div>
         <div className="PlayListContent">
           {

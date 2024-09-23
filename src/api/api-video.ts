@@ -63,6 +63,32 @@ export const getAllVideo = async () => {
     };
   }
 };
+export const getVideoByPage = async (page=1, pageSize=10) => {
+  try {
+    
+    return  await db.getDataWithPagination("videos", page, pageSize);
+   
+  } catch (error) {
+    console.log({ error });
+    return {
+      isSuccess: false,
+      error,
+    };
+  }
+};
+export const findVideo = async (keyword: string,field='title',page=1, pageSize=10) => {
+  try {
+
+    return  await db.searchByTag("videos", field, keyword, page, pageSize);
+   
+  } catch (error) {
+    console.log({ error });
+    return {
+      isSuccess: false,
+      error,
+    };
+  }
+};
 export const searchVideoBySlug = async (slug: string) => {
   try {
    const videos = await db.search("videos", 'slug', slug);
@@ -80,6 +106,7 @@ export const searchVideoBySlug = async (slug: string) => {
 };
 export const deleteVideo = async (_id: number) => {
   try {
+  
    await db.deleteData("videos", _id);
     return {
       isSuccess: true,
@@ -93,3 +120,6 @@ export const deleteVideo = async (_id: number) => {
     };
   }
 };
+
+
+
